@@ -1,6 +1,8 @@
 import './App.css'
 import SearchBar from './components/SearchBar';
+import RecipeList from './components/RecipeList';
 import { useState } from 'react'
+import dummyJSON from './mockApi';
 
 function App() {
   const [query, setQuery] = useState('');
@@ -11,6 +13,7 @@ function App() {
   return (
     <>
       <SearchBar onClick={handleClick} />
+      <RecipeList jsonData={dummyJSON} />
     </>
   )
 }
