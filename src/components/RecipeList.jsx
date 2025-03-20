@@ -1,11 +1,11 @@
 import RecipeCard from "./RecipeCard";
 
-function RecipeList({jsonData}) {
+function RecipeList({data}) {
     return (
         <div className="mt-7">
           {
-            jsonData.data.map(item => (
-                <RecipeCard key={item.id} src={item.url} name={item.name} />
+            data.map(meal => (
+                <RecipeCard key={meal.idMeal} src={meal.strMealThumb} name={meal.strMeal} area={meal.strArea} />
             ))
           }
         </div>
