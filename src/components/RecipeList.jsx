@@ -1,6 +1,7 @@
 import RecipeCard from "./RecipeCard";
+// import { PulseLoader } from "react-spinners";
 
-function RecipeList({data}) {
+function RecipeList({data, isLoading}) {
     return (
         <div className="mt-7">
           {
