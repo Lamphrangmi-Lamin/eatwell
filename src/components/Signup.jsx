@@ -1,4 +1,4 @@
-import {createUserWithEmailAndPassword } from "firebase/auth";
+import {confirmPasswordReset, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { useState } from "react";
 import FormInput from "./FormInput";
@@ -25,14 +25,14 @@ function Signup() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(formData);
-        createUserWithEmailAndPassword(auth, formData.email, formData.confirmPassword); 
+        createUserWithEmailAndPassword(auth, formData.email, formData.confirmPassword);
     }
 
     return (
-        <div className="">
+        <div className="flex justify-center">
             <form onSubmit={handleSubmit}>
                 <FormInput
-                label='name'
+                label='Name'
                 type='text'
                 name='name'
                 placeholder='Enter name'
@@ -42,7 +42,7 @@ function Signup() {
                 required />
                 {/* {console.log(errors.name)} */}
                 <FormInput
-                label='email'
+                label='Email'
                 type='email'
                 name='email'
                 placeholder='Enter email'
@@ -52,7 +52,7 @@ function Signup() {
                 required />
                 {/* {console.log(errors.name)} */}
                 <FormInput
-                label='password'
+                label='Password'
                 type='password'
                 name='password'
                 placeholder='Enter password'
@@ -61,8 +61,41 @@ function Signup() {
                 // error={error.name}
                 />
                 {/* {console.log(errors.name)} */}
+                <FormInput
+                label='Confirm password'
+                type='password'
+                name='confirmPassword'
+                placeholder='confirm password'
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                // error={error.name}
+                />
+                {/* {console.log(errors.name)} */}
 
-                <button type="submit">Sign Up</button>
+                <div className="flex justify-between items-center">
+                    <button className="
+                    bg-[#D00000]
+                    font-bold
+                    py-2
+                    px-3
+                    rounded-md
+                    hover:bg-[#9D0208]
+                    block"
+                    type="submit">Sign Up</button>
+
+                    <span className="text-center">OR</span>
+                    
+                    <button className="
+                    bg-[#FFBA08]
+                    text-black
+                    font-bold
+                    py-2
+                    px-3
+                    rounded-md
+                    hover:bg-[#F48C06]
+                    block">Google</button>
+                </div>
+                <p>Already have an account? <span className="text-blue-300"><a href="#">Log In</a></span></p>
             </form>
         </div>
     )
