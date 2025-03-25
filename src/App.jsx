@@ -1,6 +1,8 @@
 import './App.css'
 import SearchBar from './components/SearchBar';
 import RecipeList from './components/RecipeList';
+import Signup from './components/Signup';
+
 import { useState, useEffect } from 'react'
 import { PulseLoader } from "react-spinners";
 
@@ -37,13 +39,16 @@ function App() {
   }, [query])
   return (
     <>
-      <SearchBar onClick={handleClick} />
+      {/* <SearchBar onClick={handleClick} />
+
       {isLoading?
       <div className='fixed inset-0 flex justify-center items-center bg-black/40 backdrop-blur z-10'>
         <PulseLoader size={12} color="#FFBA08" />
       </div>
       : <RecipeList data={recipes} isLoading={isLoading} />
-      }
+      } */}
+
+      <Signup />
     </>
   )
 }
