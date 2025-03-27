@@ -1,76 +1,82 @@
-import {confirmPasswordReset, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+// importing components
 import FormInput from "./FormInput";
 
 function Signup() {
-    // form state setup
-    const [formData, setFormData] = useState({
-        name: "Lam",
-        email: "lam@gmail.com",
-        password: "1234567",
-        confirmPassword: "1234567"
-    });
+    // useForm hook
+    const {register, handleSubmit, formState: {errors, isValid}} = useForm();
 
-    // input handler
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+    const onSubmit = async (formData) => {
+        const {email, password} = formData;
+        if(!isValid) return //Ensure form validity before submitting
+        
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            alert("Account created succesfully!");
+            console.log("Credential: ", userCredential.user);
+        } catch(error) {
+            if(error.code ===  "auth/email-already-in-use") {
+                alert("This email is already in use. Please log in or use a different email.");
+            }
+            // console.error("Error creating account: ", error.message)
+        }
     }
-
-    // form submit handler
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formData);
-        createUserWithEmailAndPassword(auth, formData.email, formData.confirmPassword);
-    }
+    // console.log(errors);
 
     return (
         <div className="flex justify-center">
-            <form onSubmit={handleSubmit}>
-                <FormInput
-                label='Name'
-                type='text'
-                name='name'
-                placeholder='Enter name'
-                value={formData.name}
-                onChange={handleChange}
-                // error={error.name}
-                required />
-                {/* {console.log(errors.name)} */}
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <FormInput
                 label='Email'
                 type='email'
                 name='email'
                 placeholder='Enter email'
-                value={formData.email}
-                onChange={handleChange}
-                // error={error.name}
-                required />
-                {/* {console.log(errors.name)} */}
+                register={register}
+                errors={errors}
+                validation={{
+                    required: "Email is required",
+                    pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Invalid email format"
+                    }
+                }}
+                 />
                 <FormInput
                 label='Password'
                 type='password'
                 name='password'
                 placeholder='Enter password'
-                value={formData.password}
-                onChange={handleChange}
-                // error={error.name}
+                pattern={
+                    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+                }
+                register={register}
+                errors={errors}
+                validation={{
+                    required: "Password is required",
+                    minLength: {
+                        value: 8,
+                        message: "Password must be at least 8 characters"
+                    }
+                }}
                 />
-                {/* {console.log(errors.name)} */}
                 <FormInput
                 label='Confirm password'
                 type='password'
                 name='confirmPassword'
                 placeholder='confirm password'
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                // error={error.name}
+                register={register}
+                errors={errors}
+                validation={{
+                    required: "Please confirm your password",
+                    minLength: {
+                        value: 8,
+                        message: "Password must be at least 8 characters"
+                    }
+                }}
                 />
-                {/* {console.log(errors.name)} */}
 
                 <div className="flex justify-between items-center">
                     <button className="
