@@ -7,24 +7,25 @@ import FormInput from "./FormInput";
 
 function Signup() {
     // useForm hook
-    const {register, handleSubmit, formState: {errors, isValid}} = useForm();
+    const {register, reset, watch, handleSubmit, formState: {errors}} = useForm();
+    const passwordInput = watch('password');
 
     const onSubmit = async (formData) => {
         const {email, password} = formData;
-        if(!isValid) return //Ensure form validity before submitting
         
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            await createUserWithEmailAndPassword(auth, email, password);
             alert("Account created succesfully!");
-            console.log("Credential: ", userCredential.user);
+            // reset formState data and form fields
+            reset();
         } catch(error) {
-            if(error.code ===  "auth/email-already-in-use") {
+            if(error.code ===  "auth/invalid-email") {
+                alert("Please enter a valid email");
+            } else if(error.code ===  "auth/email-already-in-use") {
                 alert("This email is already in use. Please log in or use a different email.");
             }
-            // console.error("Error creating account: ", error.message)
         }
     }
-    // console.log(errors);
 
     return (
         <div className="flex justify-center">
@@ -70,11 +71,8 @@ function Signup() {
                 register={register}
                 errors={errors}
                 validation={{
-                    required: "Please confirm your password",
-                    minLength: {
-                        value: 8,
-                        message: "Password must be at least 8 characters"
-                    }
+                    required: "Please confirm your password", 
+                    validate: (value) => value === passwordInput || "Password do not match",
                 }}
                 />
 

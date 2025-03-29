@@ -5,7 +5,7 @@ const FormInput = ({
     placeholder,
     register,
     errors,
-    validation
+    validation,
 }) => {
     return (
         <div className="flex-col items-center justify-center my-6">
@@ -29,11 +29,13 @@ const FormInput = ({
             {...register(name, validation)}
             />
 
-            {errors[name]?.type === 'required' && <p className="text-red-600 text-sm max-w-14">{validation.required}</p>}
+            {errors[name]?.type === 'required' && <p className="text-red-600 text-sm max-w-60">{validation.required}</p>}
 
-            {errors[name]?.type === 'pattern' && <p className="text-red-600 text-sm max-w-14">{validation.pattern.message}</p>}
+            {errors[name]?.type === 'pattern' && <p className="text-red-600 text-sm max-w-32">{validation.pattern.message}</p>}
 
-            {errors[name]?.type === 'minLength' && <p className="text-red-600 text-sm max-w-3/4">{validation.minLength.message}</p>}
+            {errors[name]?.type === 'minLength' && <p className="text-red-600 text-sm max-w-60">{validation.minLength.message}</p>}
+
+            {errors[name]?.type === 'validate' && <p className="text-red-600 text-sm">{errors[name].message}</p>}
         </div>
     )
 }
