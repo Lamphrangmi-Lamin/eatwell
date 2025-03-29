@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { useForm } from "react-hook-form";
 
@@ -6,10 +6,35 @@ import { useForm } from "react-hook-form";
 import FormInput from "./FormInput";
 
 function Signup() {
+    const provider = new GoogleAuthProvider();
     // useForm hook
     const {register, reset, watch, handleSubmit, formState: {errors}} = useForm();
     const passwordInput = watch('password');
 
+    const signInWithGoogle = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            // get access token
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // get user-info
+            const user = result.user;
+            // console.log("Token:",token);
+            // console.log("User photo URL:", user.photoURL);
+            alert("Sign in successful!")
+        } catch(error) {
+            const errorCode = error.code;
+            console.log("Error code:", errorCode);
+            const errorMessage = error.message;
+            console.log("Error message:", errorMessage);
+            // get email of the user's account used
+            const email = error.customData.email;
+            console.log("Email used:", email)
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            console.log("User's credential:", credential);
+        }
+    }
+    
     const onSubmit = async (formData) => {
         const {email, password} = formData;
         
@@ -97,7 +122,9 @@ function Signup() {
                     px-3
                     rounded-md
                     hover:bg-[#F48C06]
-                    block">Google</button>
+                    block"
+                    onClick={signInWithGoogle}
+                    type="button">Google</button>
                 </div>
                 <p>Already have an account? <span className="text-blue-300"><a href="#">Log In</a></span></p>
             </form>
