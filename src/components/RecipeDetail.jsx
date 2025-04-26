@@ -101,8 +101,9 @@ function RecipeDetail() {
 
     return (
         <div className="max-w-md mx-auto mt-8 px-5">
-            <div className="overflow-hidden h-75 w-75 m-auto">
-                <img className="h-full w-full object-cover rounded-full" src={recipeDetail.strMealThumb} alt="recipe image" />
+            <div className="">
+                {/* <img className="h-full w-full object-cover rounded-full" src={recipeDetail.strMealThumb} alt="recipe image" /> */}
+                <iframe className="h-70 w-95 mx-auto rounded-xl" src={`https://www.youtube.com/embed/${recipeDetail.strYoutube.split('v=')[1]}`} title="YouTube video player" allowFullScreen></iframe>
             </div>
 
             <h1 className="font-semibold text-2xl text-center m-8">{recipeDetail.strMeal}</h1>
