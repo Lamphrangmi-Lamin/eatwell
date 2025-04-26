@@ -1,6 +1,8 @@
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { useForm } from "react-hook-form";
+// import { googleSignInWithRedirect } from "../config/firebase";
+import { useAuth } from "../hooks/useAuth";
 
 // importing components
 import FormInput from "./FormInput";
@@ -10,8 +12,29 @@ function Signup() {
     // useForm hook
     const {register, reset, watch, handleSubmit, formState: {errors}} = useForm();
     const passwordInput = watch('password');
+    const {user, loading} = useAuth();
 
-    const signInWithGoogle = async () => {
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    if (user) {
+        return (
+            <div className="flex justify-center">
+                <div className="text-center">
+                    <h2>Welcome, {user.displayName || user.email}!</h2>
+                    <p>You're already signed in.</p>
+                    <button onClick={() => auth.signOut()}
+                    className="bg-[#D00000] font-bold py-2 px-3 rounded-md hover:bg-[#9D0208] mt-4"
+                    >
+                    Sign Out
+                    </button>
+                </div>
+            </div>
+        )
+    }
+
+    const signInWithGooglePopup = async () => {
         try {
             const result = await signInWithPopup(auth, provider);
             // get access token
@@ -123,8 +146,8 @@ function Signup() {
                     rounded-md
                     hover:bg-[#F48C06]
                     block"
-                    onClick={signInWithGoogle}
-                    type="button">Google</button>
+                    onClick={signInWithGooglePopup}
+                    type="button">Sign in with Google</button>
                 </div>
                 <p>Already have an account? <span className="text-blue-300"><a href="#">Log In</a></span></p>
             </form>

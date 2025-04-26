@@ -6,7 +6,7 @@ function RecipeList({data, isLoading}) {
         <div className="mt-7">
           {
             data.map(meal => (
-                <RecipeCard key={meal.idMeal} src={meal.strMealThumb} name={meal.strMeal} area={meal.strArea} />
+                <RecipeCard id={meal.idMeal} key={meal.idMeal} src={meal.strMealThumb} name={meal.strMeal} area={meal.strArea} />
             ))
           }
         </div>
