@@ -6,7 +6,14 @@ function RecipeCard(props) {
           <img className="rounded-t-sm" src={props.src} alt="recipe-image" />
           <div className="p-5">
             <h5 className="text-2xl mb-2 font-bold">{props.name}</h5>
-            <p className="description mb-3 text-lg text-[#FFBA08] font-bold">{props.area}</p>
+
+            <div className="flex justify-between items-center">
+              <p className="description mb-3 text-lg text-[#FFBA08] font-bold">{props.area}</p>
+              <button className="hover:text-red-500">
+                <i className="fa-solid fa-heart text-2xl"></i>
+              </button>
+            </div>
+
             <Link
             to={`/recipe/${props.id}`}
             className="flex items-center justify-center bg-[#FFBA08] text-[#03071E] text-sm px-3 py-2 font-medium rounded-md hover:bg-[#FAA307] cursor-pointer">

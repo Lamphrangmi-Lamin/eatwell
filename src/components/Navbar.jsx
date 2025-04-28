@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
     return (
-        <div className="flex justify-between items-center mb-4 mt-2">
+        <div className="sticky top-0 bg-[#03071E]/90 py-3 flex justify-between items-center mb-4 mt-2">
             <Link to="/" className='hover:text-[#F48C06] transition-colors duration-300'>
               <i className="fas fa-home ml-4 text-xl"></i>
             </Link>
