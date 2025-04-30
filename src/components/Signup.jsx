@@ -12,27 +12,6 @@ function Signup() {
     // useForm hook
     const {register, reset, watch, handleSubmit, formState: {errors}} = useForm();
     const passwordInput = watch('password');
-    const {user, loading} = useAuth();
-
-    if (loading) {
-        return <div>Loading...</div>
-    }
-
-    if (user) {
-        return (
-            <div className="flex justify-center">
-                <div className="text-center">
-                    <h2>Welcome, {user.displayName || user.email}!</h2>
-                    <p>You're already signed in.</p>
-                    <button onClick={() => auth.signOut()}
-                    className="bg-[#D00000] font-bold py-2 px-3 rounded-md hover:bg-[#9D0208] mt-4"
-                    >
-                    Sign Out
-                    </button>
-                </div>
-            </div>
-        )
-    }
 
     const signInWithGooglePopup = async () => {
         try {

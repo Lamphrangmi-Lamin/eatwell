@@ -5,10 +5,9 @@ import {
   GoogleAuthProvider, 
   signInWithRedirect, 
   getRedirectResult,
-  setPersistence,
-  browserSessionPersistence,
-  browserLocalPersistence
 } from "firebase/auth";
+
+import { getFirestore } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -26,20 +25,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
+
 const provider = new GoogleAuthProvider();
-
-// Set persistence before any auth operations
-setPersistence(auth, browserLocalPersistence)
-  .then(() => {
-    console.log("Persistence set successfully");
-  })
-  .catch((error) => {
-    console.error("Error setting persistence:", error);
-  });
-
-// add scopes
-provider.addScope('profile');
-provider.addScope('email');
 
 export const googleSignInWithRedirect = () => {
   signInWithRedirect(auth, provider);

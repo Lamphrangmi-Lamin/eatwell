@@ -1,8 +1,8 @@
-import Signup from "../Signup";
+import UserDashboard from "../UserDashboard";
 
 function SignupPage() {
     return (
-        <Signup />
+        <UserDashboard />
     )
 }
 
